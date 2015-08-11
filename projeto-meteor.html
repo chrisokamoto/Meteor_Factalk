@@ -1,0 +1,197 @@
+<head>
+  <title>Projeto Meteor Factalk</title>
+</head>
+
+<body>
+	
+</body>
+
+<template name="register">	
+	<img src="/images/Talk-icon.png" class="imagem_logo" />
+	<br /><br /><br /><br /><br /><br />
+	<h2>Registrar</h2>
+	<form class="register">
+		<div>
+			<p>Username: <input type="text" name="username" required /></p>
+			<p>Password: <input type="password" name="password" required /></p>
+			<p><input type="submit" value="Registrar" /></p>
+		</div>
+	</form>	
+</template>
+
+<template name="login">
+	<img src="/images/Talk-icon.png" class="imagem_logo" />
+	<br /><br /><br /><br /><br /><br />
+	<form class="login">
+		<div>
+			<p>Username: <input type="text" name="username" required /></p>
+			<p>Password: <input type="password" name="password" required /></p>
+			<p><input type="submit" value="Login" class="botao_roxo" /></p>
+		</div>
+	</form>
+</template>
+
+<template name="home">		
+	{{> cursos_resumo}}
+</template>
+
+<template name="main">	
+	{{> navigation}}	
+	{{> yield}}
+	<br /><br />
+<!--	<div class="panel-footer">		
+		<p>Facta Tecnologia - Belo Horizonte. 2015</p>
+	</div>-->
+</template>
+
+<template name="navigation">		
+		{{#if currentUser}}
+		<div class="container">
+			<div class="header row">	
+				<div class="span12">
+					<div class="navbar">	
+						<div class="navbar-inner">	
+							<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </a>
+							<h1>
+								<a class="brand" href="{{pathFor route='home'}}">FacTalk</a>
+							</h1>
+							<div class="nav-collapse collapse">
+								<ul class="nav pull-right">
+									<li>
+										<a href="{{pathFor route='home'}}">
+										<i class="fa fa-home"></i>
+										<br />
+										Home
+										</a>
+									</li>
+									<li>
+										<a href="{{pathFor route='novo_factalk'}}">
+										<i class="fa fa-plus-circle"></i>
+										<br />
+										Criar Factalk
+										</a>
+									</li>
+									<li>
+										<a href="{{pathFor route='gerenciar_factalks'}}">
+										<i class="fa fa-cogs"></i>
+										<br />
+										Gerenciar Factalks
+										</a>
+									</li>
+									<li>
+										<a href="#" class="logout">
+										<i class="fa fa-sign-out"></i>
+										<br />
+										Sair
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{else}}	
+			<div class="container_botoes">		
+				<a href="{{pathFor route='register'}}" class="botao_roxo">Registrar</a>			
+				<a href="{{pathFor route='login'}}">Login</a>
+			</div>
+		{{/if}}
+</template>
+
+<template name="cursos_resumo">	
+	<div class="page-title">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <h2 style="color:#fff">Todos Factalks</h2>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+	
+		<div class="what-we-do container">
+			<div class="row" style="margin-left: -50px; width: 1200px;">
+				{{#each factalks}}
+					<div class="service span3">
+						<div class="hora-factalk">{{hora}}</div>
+						<div class="data-factalk">{{data}}</div>
+						<br />
+						<h4>{{titulo}}</h4>
+						<p>{{resumo}}</p>
+						<a href="{{pathFor route='register'}}">+ Sobre o Talk</a>
+					</div>					
+  				{{/each}}				
+			</div>
+		</div>
+		
+</template>
+
+<template name="novo_factalk">
+	<div class="page-title">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <h2 style="color:#fff">Novo Factalk</h2>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+	 <div class="contact-us container">
+            <div class="row">
+                <div class="contact-form span7">
+                    <form method="post">
+                        <label for="titulo">Título</label>
+                          <input id="titulo" type="text" name="titulo" placeholder="Título do Factalk...">
+                        <label for="local">Local</label>
+                          <input id="local" type="text" name="local" placeholder="Onde o Factalk será realizado?">
+                        <label for="resumo" class="messageLabel">Resumo</label>
+                          <textarea id="resumo" name="resumo" placeholder="Resumo... [máx. 255 caracteres]"></textarea>
+                        <label for="local">Data</label>
+                          <input id="data" type="text" name="data" placeholder="Entre com a data no formato dd/MM/yyyy">
+                        <label for="local">Hora</label>
+                          <input id="hora" type="text" name="hora" placeholder="Entre com a hora no formato hh:mm">
+                         <br /><br />
+                        <button type="submit" class="addFactalk">Criar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+</template>
+
+<template name="gerenciar_factalks">
+	<div class="page-title">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <h2 style="color:#fff">Meus Factalks</h2>                                               
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="contact-us container">
+        <div class="row">
+            <div class="contact-form span12">
+    			{{> tabular table=TabularTables.Factalks selector=selector class="table table-striped table-bordered table-condensed"}}
+    		</div>
+        </div>
+    </div>
+</template>
+
+<template name="deleteCell">
+	<div class="links-table">
+		<i class="fa fa-trash-o fa-2x"></i>	
+	</div>
+</template>
+
+<template name="editCell">
+	<div class="links-table">
+		<i class="fa fa-pencil-square-o fa-2x"></i>	
+	</div>
+</template>
